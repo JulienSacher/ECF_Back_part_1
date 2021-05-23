@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
         // créer un utilisateur ayant un rôle admin
         $user = new User();
         $user->setEmail('admin@example.com');
-        $user->setRoles(['ROLE_ADMIN']);
+        $user->setRoles('ROLE_ADMIN');
         $user->setFirstname('Foo');
         $user->setLastname('Foo');
         // encoder le mot de passe
@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
 
             // créer un student avec les données générées
             $user = new User();
-            $user->setRoles(['ROLE_STUDENT']);
+            $user->setRoles('ROLE_STUDENT');
             $user->setPassword($password);
             $user->setFirstname($firstname);
             $user->setLastname($lastname);
@@ -67,7 +67,7 @@ class AppFixtures extends Fixture
 
             // créer un teacher avec les données générées
             $user = new User();
-            $user->setRoles(['ROLE_TEACHER']);
+            $user->setRoles('ROLE_TEACHER');
             $user->setPassword($password);
             $user->setFirstname($firstname);
             $user->setLastname($lastname);
@@ -86,7 +86,7 @@ class AppFixtures extends Fixture
 
             // créer un client avec les données générées
             $user = new User();
-            $user->setRoles(['ROLE_CLIENT']);
+            $user->setRoles('ROLE_CLIENT');
             $user->setPassword($password);
             $user->setFirstname($firstname);
             $user->setLastname($lastname);

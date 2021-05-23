@@ -1,6 +1,6 @@
-# Projet-student
+# Projet-student Part 1
 
-Projet Symfony avec mise en place d'une BDD.
+Mise en place d'une BDD avec Symfony.
 
 ## Stucture de la BDD
 
@@ -310,3 +310,132 @@ class AppFixtures extends Fixture
 2. Ensuite pousser ces données dans la BDD:
    - Entrer la commande `php bin/console doctrine:fixtures:load`
    - Puis on va nous demander si nous voulons effacer si nous voulons effacer les données du fichier `AppFixtures.php`, nous choisissons yes et on appuie sur Return.
+
+# Projet-student Part 2
+
+Création des URL pour afficher les données de la BDD.
+
+## Créer les requêtes
+
+Rentrer ces commandes dans le terminal:
+
+1. `php bin/console make:crud`
+
+   - Permet de créer un controleur selon l'entité voulu.
+   - On nous pour quelle entité on veut creer le CRUD.
+   - Et on nous demande le nom que nous souhaitons donner au controlleur.
+
+2. `App/src/Controller`
+
+   - Nous y trouverons tout nos controllers créés grâce à la commande précédente, voici un exemple du résultat pour le controller de l'entité Project :
+
+   - Le controller nous a créé une requête pour :
+      Afficher toutes les données de la table Project.
+      Afficher les données de Project en fonction d'un id.
+      Permettre de modifier des données de Project en fonction d'un id.
+      Permettre de supprimer un Project en fonction d'un id.
+
+## Test des requêtes avec l'URL
+
+Pour tester les requêtes, lancer le serveur Symfony.
+
+1. `symfony server:start`
+   - commande qui perment d'accéder au projet symfony qui se lance à l'adresse: `localhost:8000`
+
+## Les requêtes disponibles
+
+1. `localhost:8000/user`
+   - Renvoie la liste complète des utilisateurs
+
+2. `localhost:8000/user/{id}`
+   - Renvoie les données d'un user en fonction de son id.
+
+3. `localhost:8000/user/search/{role}`
+   - Renvoie une liste de user en fonction de leur role (ROLE_ADMIN, ROLE_STUDENT, ROLE_TEACHER).
+
+4. `localhost:8000/schoolyear`
+   - Renvoie la liste des schoolyears.
+
+5. `localhost:8000/schoolyear/{id}`
+   - Renvoie les données d'une schoolyear en fonction de son id.
+
+6. `localhost:8000/project`
+   - Renvoie la liste des projects.
+
+7. `localhost:8000/project/{id}`
+   - Renvoie les données d'un project en fonction de son id.
+
+# Projet-student Part 3
+
+Création du back-end d'une application web qui affiche les pages demandées.
+
+## Créer le formulaire d'authentification
+
+1. `php bin/console make:form`
+   - Cette commande génére un formulaire d'authentification.
+   - On accède au formulaire par `localhost:8000/login`.
+2. Nous allons dans SecurityController.php dans `App/src/Controller/SecurityController.php`
+   - Voici le contenu du fichier :
+   ```
+   <?php
+
+   namespace App\Controller;
+
+   use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+   use Symfony\Component\HttpFoundation\Response;
+   use Symfony\Component\Routing\Annotation\Route;
+   use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
+   class SecurityController extends AbstractController
+   {
+      /**
+      * @Route("/login", name="app_login")
+      */
+      public function login(AuthenticationUtils $authenticationUtils): Response
+      {
+         // if ($this->getUser()) {
+         //     return $this->redirectToRoute('target_path');
+         // }
+
+         // get the login error if there is one
+         $error = $authenticationUtils->getLastAuthenticationError();
+         // last username entered by the user
+         $lastUsername = $authenticationUtils->getLastUsername();
+
+         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+      }
+
+      /**
+      * @Route("/logout", name="app_logout")
+      */
+      public function logout()
+      {
+         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+      }
+   }
+   ```
+   
+## Liste des URL disponibles
+
+  | NOM DE LA ROUTE         | METHODE         | URL |
+  | ------|-----|-----|
+  | project_index             | GET            | /project/ |                         
+  | project_new               | GET,POST       | /project/new |                      
+  | project_show              | GET            | /project/{id} |                     
+  | project_edit              | GET,POST       | /project/{id}/edit |                
+  | project_delete            | POST           | /project/{id} |                     
+  | school_year_index         | GET            | /schoolyear/ |                      
+  | school_year_new           | GET,POST       | /schoolyear/new |                   
+  | school_year_show          | GET            | /schoolyear/{id} |                 
+  | school_year_edit          | GET,POST       | /schoolyear/{id}/edit |             
+  | school_year_delete        | POST           | /schoolyear/{id} |                  
+  | app_login                 | ANY            | /login |                            
+  | app_logout                | ANY            | /logout |                           
+  | user_index                | GET            | /user |                             
+  | user_new                  | GET,POST       | /user/new |                         
+  | user_show                 | GET            | /user/{id} |                        
+  | user_test                 | GET            | /user/search/{roles} |              
+  | user_edit                 | GET,POST       | /user/{id}/edit |                   
+  | user_delete               | POST           | /user/{id} |   
+
+
